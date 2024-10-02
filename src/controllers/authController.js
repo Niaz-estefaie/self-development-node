@@ -1,10 +1,10 @@
-const User = require('../models/User');
-const { generateToken } = require('../utils/jwtUtils');
-const { validationResult } = require('express-validator');
+const User = require("../models/User");
+const { generateToken } = require("../utils/jwtUtils");
+const { validationResult } = require("express-validator");
 
 const registerUser = async (req, res) => {
   const errors = validationResult(req);
-  
+
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
@@ -14,7 +14,7 @@ const registerUser = async (req, res) => {
   try {
     const userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ message: "User already exists" });
     }
 
     const user = new User({ name, email, password });
@@ -24,7 +24,6 @@ const registerUser = async (req, res) => {
       user: { id: user._id, name: user.name, email: user.email },
     });
   } catch (error) {
-    
     res.status(500).json({ message: error.message });
   }
 };
@@ -35,7 +34,7 @@ const loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user || !(await user.matchPassword(password))) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     res.json({
@@ -44,7 +43,7 @@ const loginUser = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    
+
     res.status(500).json({ message: error.message });
   }
 };
