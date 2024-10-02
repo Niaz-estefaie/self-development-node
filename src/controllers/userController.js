@@ -1,8 +1,10 @@
-const User = require('../models/User');
+const User = require("../models/User");
 
-const handleSuccess = (res, data, statusCode = 200) => res.status(statusCode).json(data);
+const handleSuccess = (res, data, statusCode = 200) =>
+  res.status(statusCode).json(data);
 
-const handleError = (res, err, statusCode = 500) => res.status(statusCode).json({ message: err.message });
+const handleError = (res, err, statusCode = 500) =>
+  res.status(statusCode).json({ message: err.message });
 
 const getUsers = async (req, res) => {
   try {
@@ -25,8 +27,10 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedUser) return handleError(res, new Error('User not found'), 404);
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!updatedUser) return handleError(res, new Error("User not found"), 404);
     handleSuccess(res, updatedUser);
   } catch (err) {
     handleError(res, err);
@@ -36,8 +40,8 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id);
-    if (!deletedUser) return handleError(res, new Error('User not found'), 404);
-    handleSuccess(res, { message: 'User deleted successfully' });
+    if (!deletedUser) return handleError(res, new Error("User not found"), 404);
+    handleSuccess(res, { message: "User deleted successfully" });
   } catch (err) {
     handleError(res, err);
   }
