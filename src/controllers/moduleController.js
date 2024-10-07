@@ -1,6 +1,6 @@
-const Module = require('../models/moduleModel');
+const Module = require("../models/Module");
 
-exports.createModule = async (req, res) => {
+const createModule = async (req, res) => {
   try {
     const { name, title, order, description } = req.body;
     const newModule = await Module.create({ name, title, order, description });
@@ -10,7 +10,7 @@ exports.createModule = async (req, res) => {
   }
 };
 
-exports.getModules = async (req, res) => {
+const getModules = async (req, res) => {
   try {
     const modules = await Module.find().sort({ order: 1 });
     res.status(200).json(modules);
@@ -19,7 +19,7 @@ exports.getModules = async (req, res) => {
   }
 };
 
-exports.updateModuleOrder = async (req, res) => {
+const updateModuleOrder = async (req, res) => {
   try {
     const { moduleId, newOrder } = req.body;
     const module = await Module.findById(moduleId);
@@ -36,7 +36,7 @@ exports.updateModuleOrder = async (req, res) => {
   }
 };
 
-exports.deleteModule = async (req, res) => {
+const deleteModule = async (req, res) => {
   try {
     const moduleId = req.params.id;
     const deletedModule = await Module.findByIdAndDelete(moduleId);
@@ -45,3 +45,5 @@ exports.deleteModule = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+module.exports = { getModules, createModule, updateModuleOrder, deleteModule };
