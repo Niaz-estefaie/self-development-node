@@ -5,7 +5,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
-const { protect } = require("./middleware/authMiddleware");
+const moduleRoutes = require("./routes/moduleRoutes");
 
 dotenv.config();
 
@@ -17,8 +17,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const BASE_URL = "/api/v1";
-app.use(`${BASE_URL}`, authRoutes);
-app.use(`${BASE_URL}`, protect, userRoutes);
+app.use(`${BASE_URL}`, authRoutes)
+  .use(`${BASE_URL}`, moduleRoutes)
+  .use(`${BASE_URL}`, userRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running...");
